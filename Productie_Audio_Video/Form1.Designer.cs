@@ -31,22 +31,18 @@ namespace ProductieAudioVideo
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             grayscaleBtn = new Button();
-            button3 = new Button();
             gammaBtn = new Button();
             alphaBox = new TextBox();
             betaBox = new TextBox();
             alphaLabel = new Label();
             betaLabel = new Label();
-            button5 = new Button();
             videoBox = new PictureBox();
             loadVideoBtn = new Button();
             numericUpDown1 = new NumericUpDown();
             frameLabel = new Label();
             playPauseBtn = new Button();
-            button1 = new Button();
-            button2 = new Button();
-            button4 = new Button();
             fpsLabel = new Label();
             totalFramesLabel = new Label();
             originalBtn = new Button();
@@ -57,6 +53,8 @@ namespace ProductieAudioVideo
             extractRGBGroup = new GroupBox();
             groupBox2 = new GroupBox();
             carouselBtn = new Button();
+            loadAudioBtn = new Button();
+            playPauseAudioBtn = new Button();
             ((System.ComponentModel.ISupportInitialize)videoBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             extractRGBGroup.SuspendLayout();
@@ -72,16 +70,6 @@ namespace ProductieAudioVideo
             grayscaleBtn.Text = "Grayscale";
             grayscaleBtn.UseVisualStyleBackColor = true;
             grayscaleBtn.Click += grayscaleBtn_Click;
-            // 
-            // button3
-            // 
-            button3.Location = new Point(1224, 195);
-            button3.Name = "button3";
-            button3.Size = new Size(94, 29);
-            button3.TabIndex = 4;
-            button3.Text = "button3";
-            button3.UseVisualStyleBackColor = true;
-            button3.Visible = false;
             // 
             // gammaBtn
             // 
@@ -125,29 +113,18 @@ namespace ProductieAudioVideo
             betaLabel.TabIndex = 10;
             betaLabel.Text = "beta";
             // 
-            // button5
-            // 
-            button5.Location = new Point(1224, 160);
-            button5.Name = "button5";
-            button5.Size = new Size(94, 29);
-            button5.TabIndex = 11;
-            button5.Text = "button5";
-            button5.UseVisualStyleBackColor = true;
-            button5.Visible = false;
-            button5.Click += button5_Click;
-            // 
             // videoBox
             // 
             videoBox.Location = new Point(180, 20);
             videoBox.Name = "videoBox";
-            videoBox.Size = new Size(960, 540);
+            videoBox.Size = new Size(800, 450);
             videoBox.SizeMode = PictureBoxSizeMode.Zoom;
             videoBox.TabIndex = 12;
             videoBox.TabStop = false;
             // 
             // loadVideoBtn
             // 
-            loadVideoBtn.Location = new Point(180, 589);
+            loadVideoBtn.Location = new Point(180, 509);
             loadVideoBtn.Name = "loadVideoBtn";
             loadVideoBtn.Size = new Size(94, 29);
             loadVideoBtn.TabIndex = 13;
@@ -157,7 +134,7 @@ namespace ProductieAudioVideo
             // 
             // numericUpDown1
             // 
-            numericUpDown1.Location = new Point(990, 589);
+            numericUpDown1.Location = new Point(831, 509);
             numericUpDown1.Name = "numericUpDown1";
             numericUpDown1.Size = new Size(150, 27);
             numericUpDown1.TabIndex = 14;
@@ -165,7 +142,7 @@ namespace ProductieAudioVideo
             // frameLabel
             // 
             frameLabel.AutoSize = true;
-            frameLabel.Location = new Point(751, 563);
+            frameLabel.Location = new Point(592, 483);
             frameLabel.Name = "frameLabel";
             frameLabel.Size = new Size(107, 20);
             frameLabel.TabIndex = 15;
@@ -173,7 +150,7 @@ namespace ProductieAudioVideo
             // 
             // playPauseBtn
             // 
-            playPauseBtn.Location = new Point(551, 589);
+            playPauseBtn.Location = new Point(461, 509);
             playPauseBtn.Name = "playPauseBtn";
             playPauseBtn.Size = new Size(125, 29);
             playPauseBtn.TabIndex = 16;
@@ -181,43 +158,10 @@ namespace ProductieAudioVideo
             playPauseBtn.UseVisualStyleBackColor = true;
             playPauseBtn.Click += playPauseBtn_Click;
             // 
-            // button1
-            // 
-            button1.Location = new Point(1224, 230);
-            button1.Name = "button1";
-            button1.Size = new Size(109, 29);
-            button1.TabIndex = 18;
-            button1.Text = "Blend Images";
-            button1.UseVisualStyleBackColor = true;
-            button1.Visible = false;
-            button1.Click += button1_Click;
-            // 
-            // button2
-            // 
-            button2.Location = new Point(1226, 265);
-            button2.Name = "button2";
-            button2.Size = new Size(113, 29);
-            button2.TabIndex = 19;
-            button2.Text = "Video Overlay";
-            button2.UseVisualStyleBackColor = true;
-            button2.Visible = false;
-            button2.Click += button2_Click;
-            // 
-            // button4
-            // 
-            button4.Location = new Point(1226, 300);
-            button4.Name = "button4";
-            button4.Size = new Size(94, 29);
-            button4.TabIndex = 20;
-            button4.Text = "Dip to BW";
-            button4.UseVisualStyleBackColor = true;
-            button4.Visible = false;
-            button4.Click += button4_Click;
-            // 
             // fpsLabel
             // 
             fpsLabel.AutoSize = true;
-            fpsLabel.Location = new Point(751, 603);
+            fpsLabel.Location = new Point(592, 523);
             fpsLabel.Name = "fpsLabel";
             fpsLabel.Size = new Size(128, 20);
             fpsLabel.TabIndex = 21;
@@ -226,7 +170,7 @@ namespace ProductieAudioVideo
             // totalFramesLabel
             // 
             totalFramesLabel.AutoSize = true;
-            totalFramesLabel.Location = new Point(751, 583);
+            totalFramesLabel.Location = new Point(592, 503);
             totalFramesLabel.Name = "totalFramesLabel";
             totalFramesLabel.Size = new Size(98, 20);
             totalFramesLabel.TabIndex = 22;
@@ -330,30 +274,49 @@ namespace ProductieAudioVideo
             carouselBtn.UseVisualStyleBackColor = true;
             carouselBtn.Click += carouselBtn_Click;
             // 
+            // loadAudioBtn
+            // 
+            loadAudioBtn.Location = new Point(1031, 20);
+            loadAudioBtn.Name = "loadAudioBtn";
+            loadAudioBtn.Size = new Size(109, 29);
+            loadAudioBtn.TabIndex = 33;
+            loadAudioBtn.Text = "Load Audio";
+            loadAudioBtn.UseVisualStyleBackColor = true;
+            loadAudioBtn.Click += loadAudioBtn_Click;
+            // 
+            // playPauseAudioBtn
+            // 
+            playPauseAudioBtn.Location = new Point(1031, 55);
+            playPauseAudioBtn.Name = "playPauseAudioBtn";
+            playPauseAudioBtn.Size = new Size(109, 29);
+            playPauseAudioBtn.TabIndex = 34;
+            playPauseAudioBtn.Text = "Play Audio";
+            playPauseAudioBtn.UseVisualStyleBackColor = true;
+            playPauseAudioBtn.Click += playPauseAudioBtn_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1382, 653);
+            BackColor = Color.WhiteSmoke;
+            ClientSize = new Size(1152, 553);
+            Controls.Add(playPauseAudioBtn);
+            Controls.Add(loadAudioBtn);
             Controls.Add(carouselBtn);
             Controls.Add(groupBox2);
             Controls.Add(extractRGBGroup);
             Controls.Add(originalBtn);
             Controls.Add(totalFramesLabel);
             Controls.Add(fpsLabel);
-            Controls.Add(button4);
-            Controls.Add(button2);
-            Controls.Add(button1);
             Controls.Add(playPauseBtn);
             Controls.Add(frameLabel);
             Controls.Add(numericUpDown1);
             Controls.Add(loadVideoBtn);
             Controls.Add(videoBox);
-            Controls.Add(button5);
-            Controls.Add(button3);
             Controls.Add(grayscaleBtn);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form1";
-            Text = "Form1";
+            Text = "Audio Video Production";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)videoBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
@@ -367,21 +330,16 @@ namespace ProductieAudioVideo
 
         #endregion
         private Button grayscaleBtn;
-        private Button button3;
         private Button gammaBtn;
         private TextBox alphaBox;
         private TextBox betaBox;
         private Label alphaLabel;
         private Label betaLabel;
-        private Button button5;
         private PictureBox videoBox;
         private Button loadVideoBtn;
         private NumericUpDown numericUpDown1;
         private Label frameLabel;
         private Button playPauseBtn;
-        private Button button1;
-        private Button button2;
-        private Button button4;
         private Label fpsLabel;
         private Label totalFramesLabel;
         private Button originalBtn;
@@ -392,5 +350,7 @@ namespace ProductieAudioVideo
         private GroupBox extractRGBGroup;
         private GroupBox groupBox2;
         private Button carouselBtn;
+        private Button loadAudioBtn;
+        private Button playPauseAudioBtn;
     }
 }

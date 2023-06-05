@@ -12,7 +12,6 @@ using Emgu.Util;
 using Emgu.CV.Structure;
 using System.Drawing;
 using System.Security.Cryptography;
-//using static System.Net.Mime.MediaTypeNames;
 
 namespace VideoClass
 {
@@ -31,7 +30,6 @@ namespace VideoClass
         public double Fps { get; }
 
         public Image CurrentFrameImage { get; }
-        //Aici va adaugati voi frame sau bitmap..sau ce o fi...
     }
 
     public class Video
@@ -61,14 +59,10 @@ namespace VideoClass
         public event VideoEventHandler VideoEvent;
 
         public void RefreshFrame()
-        {
-            //do something here
-            //Let's raise an event 
+        { 
             RaiseSampleEvent();
         }
 
-        // Wrap the event in a protected virtual method
-        // to enable derived classes to raise the event.
         protected void RaiseSampleEvent()
         {
             if (VideoEvent != null)

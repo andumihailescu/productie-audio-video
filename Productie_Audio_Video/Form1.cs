@@ -9,10 +9,8 @@ namespace ProductieAudioVideo
 {
     public partial class Form1 : Form
     {
-        private Image<Bgr, Byte> Initial_Image;
-        private Image<Bgr, Byte> Final_Image;
-
         private Video video;
+        private Audio audio;
 
         public delegate void CurrentFrameHandler(object sender, EventArgs e);
 
@@ -24,6 +22,7 @@ namespace ProductieAudioVideo
         private void Form1_Load(object sender, EventArgs e)
         {
             video = new Video();
+            audio = new Audio();
         }
 
         private void enableRgbRadioButtons()
@@ -58,14 +57,6 @@ namespace ProductieAudioVideo
             video.RefreshFrame();
         }
 
-        //Histogram
-        /*private void button3_Click(object sender, EventArgs e)
-        {
-            HistogramViewer v = new HistogramViewer();
-            v.HistogramCtrl.GenerateHistograms(Initial_Image, 255);
-            v.Show();
-        }*/
-
         private void gammaBtn_Click(object sender, EventArgs e)
         {
             int alpha;
@@ -78,16 +69,6 @@ namespace ProductieAudioVideo
                 video.ApplyGamma(alpha, beta);
                 video.RefreshFrame();
             }
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            Initial_Image._GammaCorrect(0.5);
-            //pictureBox3.Image = Initial_Image.ToBitmap();
-
-            HistogramViewer v = new HistogramViewer();
-            v.HistogramCtrl.GenerateHistograms(Initial_Image, 255);
-            v.Show();
         }
 
         private void loadVideoBtn_Click(object sender, EventArgs e)
@@ -132,112 +113,6 @@ namespace ProductieAudioVideo
             }
         }
 
-        private async void button1_Click(object sender, EventArgs e)
-        {
-            string[] FileNames = Directory.GetFiles(@"D:\School\Productie Audio Video\Laborator2\Laborator2\Images", "*.png");
-            List<Image<Bgr, byte>> listImages = new List<Image<Bgr, byte>>();
-            foreach (var file in FileNames)
-            {
-                listImages.Add(new Image<Bgr, byte>(file));
-            }
-            for (int i = 0; i < listImages.Count - 1; i++)
-            {
-                for (double alpha = 0.0; alpha <= 1.0; alpha += 0.01)
-                {
-                    //beforeImg.Image = listImages[i + 1].AddWeighted(listImages[i], alpha, 1 - alpha, 0).AsBitmap();
-                    await Task.Delay(25);
-                }
-            }
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            VideoCapture capture = new VideoCapture(@"D:\School\Productie Audio Video\Laborator2\Laborator2\AviTest\Star Wars Reflections 4K Unreal Engine Real-Time Ray Tracing Demonstration (360).mp4");
-
-            int Fourcc = Convert.ToInt32(capture.Get(CapProp.FourCC));
-            int Width = Convert.ToInt32(capture.Get(CapProp.FrameWidth));
-            int Height = Convert.ToInt32(capture.Get(CapProp.FrameHeight));
-            var Fps = capture.Get(CapProp.Fps);
-            var TotalFrame = capture.Get(CapProp.FrameCount);
-
-
-            string destionpath = @"D:\School\Productie Audio Video\Laborator2\Laborator2\AviTest\Video with logo.mp4";
-            using (VideoWriter writer = new VideoWriter(destionpath, Fourcc, Fps, new Size(Width, Height), true))
-            {
-                Image<Bgr, byte> logo = new Image<Bgr, byte>(@"D:\School\Productie Audio Video\Laborator2\Laborator2\AviTest\logo.png");
-                Mat m = new Mat();
-
-                var FrameNo = 1;
-                while (FrameNo < TotalFrame)
-                {
-                    capture.Read(m);
-                    Image<Bgr, byte> img = m.ToImage<Bgr, byte>();
-                    img.ROI = new Rectangle(Width - logo.Width - 30, 10, logo.Width, logo.Height);
-                    logo.CopyTo(img);
-
-                    img.ROI = Rectangle.Empty;
-
-                    writer.Write(img.Mat);
-                    FrameNo++;
-                }
-            }
-
-        }
-
-        private async void button4_Click(object sender, EventArgs e)
-        {
-            VideoCapture capture1 = new VideoCapture(@"D:\School\Productie Audio Video\Laborator2\Laborator2\AviTest\Dip BW\First Video Star Wars Reflections 4K Unreal Engine Real-Time Ray Tracing Demonstration (360).mp4");
-            VideoCapture capture2 = new VideoCapture(@"D:\School\Productie Audio Video\Laborator2\Laborator2\AviTest\Dip BW\SecondVideo.mp4");
-
-            int Fourcc = Convert.ToInt32(capture1.Get(CapProp.FourCC));
-            int Width = Convert.ToInt32(capture1.Get(CapProp.FrameWidth));
-            int Height = Convert.ToInt32(capture1.Get(CapProp.FrameHeight));
-            var Fps = capture1.Get(CapProp.Fps);
-            var TotalFrame1 = capture1.Get(CapProp.FrameCount);
-            var TotalFrame2 = capture2.Get(CapProp.FrameCount);
-            var TotalFrames = TotalFrame1 + TotalFrame2;
-
-
-            string destionpath = @"D:\School\Productie Audio Video\Laborator2\Laborator2\AviTest\Dip BW\Transition.mp4";
-            using (VideoWriter writer = new VideoWriter(destionpath, Fourcc, Fps, new Size(Width, Height), true))
-            {
-
-                Image<Bgr, byte> white = new Image<Bgr, byte>(@"D:\School\Productie Audio Video\Laborator2\Laborator2\AviTest\logo.png");
-                Image<Bgr, byte> black = new Image<Bgr, byte>(@"D:\School\Productie Audio Video\Laborator2\Laborator2\AviTest\logo.png");
-                Mat m = new Mat();
-
-                var FrameNo = 1;
-                while (FrameNo < TotalFrame1)
-                {
-                    capture1.Read(m);
-                    Image<Bgr, byte> img = m.ToImage<Bgr, byte>();
-                    /*img.ROI = new Rectangle(Width - black.Width - 30, 10, black.Width, black.Height);
-                    black.CopyTo(img);
-
-                    img.ROI = Rectangle.Empty;*/
-
-                    writer.Write(img.Mat);
-                    FrameNo++;
-                }
-
-                FrameNo = 1;
-
-                while (FrameNo < TotalFrame2)
-                {
-                    capture2.Read(m);
-                    Image<Bgr, byte> img = m.ToImage<Bgr, byte>();
-                    /*img.ROI = new Rectangle(Width - black.Width - 30, 10, black.Width, black.Height);
-                    black.CopyTo(img);
-
-                    img.ROI = Rectangle.Empty;*/
-
-                    writer.Write(img.Mat);
-                    FrameNo++;
-                }
-            }
-        }
-
         private void extractColorChannel(object sender, EventArgs e)
         {
             RadioButton radioButton = (RadioButton)sender;
@@ -265,6 +140,43 @@ namespace ProductieAudioVideo
             disableRgbRadioButtons();
             video.ApplyCarousel();
             video.RefreshFrame();
+        }
+
+        private void loadAudioBtn_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                string audioFileName = ofd.FileName;
+                audio.LoadAudio(audioFileName);
+            }
+            audio.AudioEvent += ResetPlayPauseButton;
+
+        }
+
+        private void ResetPlayPauseButton(object sender, AudioEventArgs e)
+        {
+            if (e.HasFinished == true)
+            {
+                audio.IsPlayingAudio = false;
+                playPauseAudioBtn.Text = "Play Audio";
+            }
+        }
+
+        private void playPauseAudioBtn_Click(object sender, EventArgs e)
+        {
+            if (audio.IsPlayingAudio == true)
+            {
+                audio.IsPlayingAudio = false;
+                audio.PauseAudio();
+                playPauseAudioBtn.Text = "Play Audio";
+            }
+            else
+            {
+                audio.PlayAudio();
+                audio.IsPlayingAudio = true;
+                playPauseAudioBtn.Text = "Pause Audio";
+            }
         }
     }
 }
